@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import Cors from "cors";
 
 import Cards from "./dbCards.js";
 
@@ -9,6 +10,8 @@ const port = process.env.PORT || 8001;
 const connection_url = `mongodb+srv://admin:7ugxEao5r00HbeFy@cluster0.orobl.mongodb.net/tinderdb?retryWrites=true&w=majority`;
 
 // Middlewares
+app.use(express.json());
+app.use(Cors());
 
 // Db config
 mongoose.connect(connection_url, {
@@ -18,9 +21,9 @@ mongoose.connect(connection_url, {
 });
 
 // API Endpoints
-app.get("/", (req, res) => res.status(200).send("Hello"));
+app.get("/", (req, res) => res.status(200).send("Connected"));
 
-app.post("/tinder/card", (req, res) => {
+app.post("/tinder/cards", (req, res) => {
 	const dbCard = req.body;
 
 	Cards.create(dbCard, (err, data) => {
